@@ -6,7 +6,6 @@ from imdb import IMDb
 import re
 import requests
 import smtplib
-from tabulate import tabulate
 
 movies_list = []
 movies_ratings_list = []
@@ -25,7 +24,7 @@ imdb_obj = IMDb()
 
 for movie in movies_list:
     movie_flag = 0
-    for stop_word in stop_words_movies: 
+    for stop_word in stop_words_movies:
         if stop_word in movie:
             movie = movie.replace(stop_word, '').strip() # Remove words that might throw off search on IMDB website
             for movie_rating_tuple in movies_ratings_list:
@@ -44,7 +43,7 @@ for movie in movies_list:
             movies_ratings_list.append([movie, movie_obj, "This movie has not been released yet!"])
     else:
         movies_ratings_list.append([movie, '', "No information has been found for this movie :("])
-    
+
 msg_text = "Here are this week's movies airing at NorteShopping with an IMDB rating equal to or over 7.5:\n\n"
 
 for movie, movie_en, rating in movies_ratings_list:
