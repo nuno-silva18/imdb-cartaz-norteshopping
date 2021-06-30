@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
-import emailconfig
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from imdb import IMDb
+import os
 import re
 import requests
 import smtplib
@@ -54,12 +54,12 @@ for movie, movie_en, rating in movies_ratings_list:
 msg = MIMEMultipart('alternative', None, [MIMEText(msg_text)])
 
 msg['Subject'] = 'Your weekly update on great movies airing at NorteShopping!'
-msg['From'] = emailconfig.gmailinfo['email_sender']
-msg['To'] = emailconfig.gmailinfo['email_receiver']
+msg['From'] = os.environ.get("EMAIL_SENDER") 
+msg['To'] = os.environ.get("EMAIL_RECIPIENT")
 
 server = smtplib.SMTP('smtp.gmail.com', 587)
 server.ehlo()
 server.starttls()
-server.login(emailconfig.gmailinfo['email_sender'], emailconfig.gmailinfo['password_sender'])
-server.sendmail(emailconfig.gmailinfo['email_sender'], emailconfig.gmailinfo['email_receiver'], msg.as_string())
+server.login(os.environ.get("EMAIL_SENDER"), os.environ.get("EMAIL_PASSWORD"))
+server.sendmail(os.environ.get("EMAIL_SENDER"), os.environ.get("EMAIL_RECIPIENT"), msg.as_string())
 server.quit()
