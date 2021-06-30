@@ -9,7 +9,7 @@ import smtplib
 
 movies_list = []
 movies_ratings_list = []
-stop_words_movies = ['2D', '3D', '4DX', 'ATMOS', 'IMAX', 'VP', 'VO', 'VIP']
+stop_words_movies = ['2D', '3D', '4DX', 'ATMOS', 'IMAX', 'VP', 'VO', 'VIP', 'XVision']
 
 cartaz_norteshop_page = requests.get("http://cinemas.nos.pt/cinemas/Pages/norteshopping.aspx")
 cartaz_norteshop_soup = BeautifulSoup(cartaz_norteshop_page.text, 'html.parser')
