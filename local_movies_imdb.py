@@ -57,7 +57,7 @@ msg['Subject'] = 'Your weekly update on great movies airing at NorteShopping!'
 msg['From'] = os.environ.get("EMAIL_SENDER") 
 msg['To'] = os.environ.get("EMAIL_RECIPIENT")
 
-server = smtplib.SMTP_SSL('smtp.gmail.com', 587)
+server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
 server.ehlo()
 server.starttls()
 server.login(os.environ.get("EMAIL_SENDER"), os.environ.get("EMAIL_PASSWORD"))
