@@ -1,7 +1,7 @@
 name: local_movies_imdb
 on:
   schedule:
-    - cron: '0 17 * * THU'
+    - cron: '20 22 * * WED'
 jobs:
   run-local_movies_imdb-python-script:
     runs-on: ubuntu-latest
