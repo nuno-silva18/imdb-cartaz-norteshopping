@@ -24,11 +24,12 @@ for a_link in cartaz_norteshop_a_links:
 imdb_obj = IMDb()
 
 for movie in movies_names_list:
-    movie_flag = 0
+    print(movie)
     for stop_word in stop_words_movies:
         if stop_word in movie:
             movie.replace(stop_word, '').strip() # Remove words that might throw off search on IMDB website
-            re.sub('[($-)]+', '', movie) # Remove parenthesis with no chars between them from the titles of the movie
+            re.sub('[($-)]+', '', movie) # Remove parentheses with no chars between them from the titles of the movie
+    print(movie)
     movie_search_results = imdb_obj.search_movie(movie)
     if movie_search_results:
         movie_obj = movie_search_results[0]
@@ -36,7 +37,6 @@ for movie in movies_names_list:
         if movie_obj_id not in movies_id_list:
             movies_id_list.append(movie_obj_id)
             imdb_obj.update(movie_obj)
-            print(movie_obj)
             if 'rating' in movie_obj:
                 movies_ratings_list.append([movie, movie_obj, movie_obj['rating']]) # Movies that have not yet been released will not have a rating
             else:
