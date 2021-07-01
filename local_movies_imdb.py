@@ -28,7 +28,6 @@ for movie in movies_names_list:
         if stop_word in movie:
             movie = movie.replace(stop_word, '').strip() # Remove words that might throw off search on IMDB website
             movie = re.sub('[($-)]+', '', movie) # Remove parentheses with no chars between them from the titles of the movie
-    print(movie)
     movie_search_results = imdb_obj.search_movie(movie)
     if movie_search_results:
         movie_obj = movie_search_results[0]

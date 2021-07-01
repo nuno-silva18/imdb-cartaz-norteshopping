@@ -1,7 +1,8 @@
 name: local_movies_imdb
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 21 * * THU'
 
 jobs:
   run-local_movies_imdb-python-script:
