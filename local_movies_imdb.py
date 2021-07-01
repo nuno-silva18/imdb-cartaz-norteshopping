@@ -7,7 +7,8 @@ import re
 import requests
 import smtplib
 
-movies_list = []
+movies_names_list = []
+movies_id_list = []
 movies_ratings_list = []
 stop_words_movies = ['2D', '3D', '4DX', 'ATMOS', 'IMAX', 'VP', 'VO', 'VIP', 'XVision']
 
@@ -18,31 +19,30 @@ cartaz_norteshop_a_links = cartaz_norteshop_soup.find_all('a', class_= 'list-ite
 for a_link in cartaz_norteshop_a_links:
     a_href = a_link['href']
     if re.match(r'/Filmes/', a_href):
-        movies_list.append(a_link.text)
+        movies_names_list.append(a_link.text)
 
 imdb_obj = IMDb()
 
-for movie in movies_list:
+for movie in movies_names_list:
     movie_flag = 0
     for stop_word in stop_words_movies:
         if stop_word in movie:
-            movie = movie.replace(stop_word, '').strip() # Remove words that might throw off search on IMDB website
-            for movie_rating_tuple in movies_ratings_list:
-                if movie in movie_rating_tuple[0]:
-                    movie_flag = 1
-    if movie_flag == 1: # If the rating of the movie has already been obtained, move on to the next iteration
-        continue
+            movie.replace(stop_word, '').strip() # Remove words that might throw off search on IMDB website
+            re.sub('[($-)]+', '', movie) # Remove parenthesis with no chars between them from the titles of the movie
     movie_search_results = imdb_obj.search_movie(movie)
     if movie_search_results:
         movie_obj = movie_search_results[0]
-        imdb_obj.update(movie_obj)
-        print(movie_obj)
-        if 'rating' in movie_obj:
-            movies_ratings_list.append([movie, movie_obj, movie_obj['rating']]) # Movies that have not yet been released will not have a rating
+        movie_obj_id = movie_obj.getID()
+        if movie_obj_id not in movies_id_list:
+            movies_id_list.append(movie_obj_id)
+            imdb_obj.update(movie_obj)
+            print(movie_obj)
+            if 'rating' in movie_obj:
+                movies_ratings_list.append([movie, movie_obj, movie_obj['rating']]) # Movies that have not yet been released will not have a rating
+            else:
+                movies_ratings_list.append([movie, movie_obj, "This movie has not been released yet!"])
         else:
-            movies_ratings_list.append([movie, movie_obj, "This movie has not been released yet!"])
-    else:
-        movies_ratings_list.append([movie, '', "No information has been found for this movie :("])
+            movies_ratings_list.append([movie, '', "No information has been found for this movie :("])
 
 msg_text = "Here are this week's movies airing at NorteShopping with an IMDB rating equal to or over 7.5:\n\n"
 
