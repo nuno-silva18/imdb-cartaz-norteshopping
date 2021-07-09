@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "imdb-cartaz-norteshopping"
+version = "0.1.0"
+description = "Script that extracts the movies airing at the NorteShopping mall, cross-references their titles on IMDB, and e-mails the user with any movie with a rating equal to or above 7.5"
+authors = ["nuno-silva18"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.9.3"
+yapf = "^0.31.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
