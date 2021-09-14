@@ -64,17 +64,16 @@ for movie, movie_en, rating in movies_ratings_list:
           movie_en) + '\nIMDB Rating: ' + str(rating) + '\n\n'
 
 if movies_high_rated_flag == 1:
-  msg = MIMEMultipart('alternative', None, [MIMEText(msg_text)])
-
-  msg['Subject'] = 'Your weekly update on great movies airing at NorteShopping!'
-  msg['From'] = os.environ.get("EMAIL_SENDER")
-  msg['To'] = os.environ.get("EMAIL_RECIPIENT")
-
   address_list = os.environ.get("EMAIL_RECIPIENTS").split(",")
 
   server = smtplib.SMTP('smtp.gmail.com', 587)
   server.ehlo()
   server.starttls()
   server.login(os.environ.get("EMAIL_SENDER"), os.environ.get("EMAIL_PASSWORD"))
-  server.sendmail(os.environ.get("EMAIL_SENDER"), address_list, msg.as_string())
+  for address in address_list:
+    msg = MIMEMultipart('alternative', None, [MIMEText(msg_text)])
+    msg['Subject'] = 'Your weekly update on great movies airing at NorteShopping!'
+    msg['From'] = os.environ.get("EMAIL_SENDER")
+    msg['To'] = address
+    server.sendmail(os.environ.get("EMAIL_SENDER"), address, msg.as_string())
   server.quit()
